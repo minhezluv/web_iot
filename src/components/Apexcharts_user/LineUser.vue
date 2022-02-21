@@ -18,55 +18,27 @@ export default {
     for (let i = 1; i < 32; i++) {
       this.chartOptions.xaxis.categories.push(i)
     }
-    for (let i = 0; i < 5; i++) {
-      for (let j = 0; j < 31; j++) {
-        this.series[i].data[j] = 0
-      }
-    }
-    console.log('this.series', this.series)
+
     let payload = {
       id: this.deviceClick,
       month: this.monthSelectLine,
       year: this.yearSelectLine
     }
     this.$store.dispatch('loadDataSensorMonth', payload)
-    this.dataSensorMonth = this.$store.state.listDataSensorMonth
-
-    this.dataSensorMonth.sort((a, b) => {
-      if (a.code < b.code) return -1
-      return a.code > b.code ? 1 : 0
-    })
-    console.log(this.dataSensorMonth)
-
-    this.dataSensorMonth.forEach((item, index, array) => {
-      // console.log('item', item)
-      this.series[index].name = item.name
-      if (item.listData.length != 0) {
-        item.listData.forEach(element => {
-          // console.log(element)
-          this.series[index].data[element.date - 1] = element.sum
-          // this.series[index].data[element.date - 1] = element.sum
-          //  console.log(this.series[index].data[element.date - 1])
-        })
-      }
-    })
   },
   props: ['deviceClick', 'monthSelectLine', 'yearSelectLine'],
   watch: {
-    monthSelectLine: function(newVal, oldVal) {
+    monthSelectLine: function (newVal, oldVal) {
       console.log('Prop changed: ***', newVal, ' | was: ', oldVal)
-      this.$forceUpdate()
+      // this.$forceUpdate()
+      this.updateData(newVal, this.yearSelectLine, this.deviceClick)
     },
-    yearSelectLine: function(newVal, oldVal) {
+    yearSelectLine: function (newVal, oldVal) {
       console.log('Prop changed:  ***', newVal, ' | was: ', oldVal)
-      this.$forceUpdate()
+      // this.$forceUpdate()
+      this.updateData(this.monthSelectLine, newVal, this.deviceClick)
     }
   },
-
-  // chuwa load dk state -> 16
-  // computed: {
-  //   ...mapState(['listDataSensor'])
-  // },
   data() {
     return {
       dataSensorMonth: '',
@@ -77,29 +49,6 @@ export default {
       dataSensor5: '',
 
       // chart
-      series: [
-        {
-          name: '',
-          data: []
-        },
-
-        {
-          name: '',
-          data: []
-        },
-        {
-          name: '',
-          data: []
-        },
-        {
-          name: '',
-          data: []
-        },
-        {
-          name: '',
-          data: []
-        }
-      ],
       chartOptions: {
         colors: ['#77B6EA', '#545454', '#00ff00', '#009900', '#ff33ff'],
         chart: {
@@ -159,11 +108,64 @@ export default {
       }
     }
   },
-  mounted() {
-    // this.setDataLineChart()
+
+  computed: {
+    series: {
+      get: function () {
+        let tempData = [
+          {
+            name: '',
+            data: []
+          },
+
+          {
+            name: '',
+            data: []
+          },
+          {
+            name: '',
+            data: []
+          },
+          {
+            name: '',
+            data: []
+          },
+          {
+            name: '',
+            data: []
+          }
+        ]
+
+        for (let i = 0; i < 5; i++) {
+          for (let j = 0; j < 31; j++) {
+            tempData[i].data[j] = 0
+          }
+        }
+        let dataSensorMonth = this.$store.state.listDataSensorMonth
+
+        dataSensorMonth.sort((a, b) => {
+          if (a.code < b.code) return -1
+          return a.code > b.code ? 1 : 0
+        })
+        console.log(dataSensorMonth)
+
+        dataSensorMonth.forEach((item, index, array) => {
+          tempData[index].name = item.name
+          if (item.listData.length != 0) {
+            item.listData.forEach((element) => {
+              tempData[index].data[element.date - 1] = element.sum
+            })
+          }
+        })
+        console.log("temp:",tempData);
+        return tempData
+      },
+      set: function () {
+        return this.series
+      }
+    }
   },
   methods: {
-
     setDataLineChart() {
       setInterval(() => {
         //this.$store.dispatch('loadDataSensor', this.deviceClick)
@@ -172,6 +174,64 @@ export default {
         this.updateSeriesLine()
       }, 3000)
     },
+    updateData(month, year, id) {
+      let tempData = [
+        {
+          name: '',
+          data: []
+        },
+
+        {
+          name: '',
+          data: []
+        },
+        {
+          name: '',
+          data: []
+        },
+        {
+          name: '',
+          data: []
+        },
+        {
+          name: '',
+          data: []
+        }
+      ]
+
+      for (let i = 0; i < 5; i++) {
+        for (let j = 0; j < 31; j++) {
+          tempData[i].data[j] = 0
+        }
+      }
+      let payload = {
+        id: id,
+        month: month,
+        year: year
+      }
+      //   let dataSensorMonth=[]
+      this.$store.dispatch('loadDataSensorMonth', payload)
+      let dataSensorMonth = this.$store.state.listDataSensorMonth
+
+      dataSensorMonth.sort((a, b) => {
+        if (a.code < b.code) return -1
+        return a.code > b.code ? 1 : 0
+      })
+
+      dataSensorMonth.forEach((item, index, array) => {
+        tempData[index].name = item.name
+        if (item.listData !== undefined) {
+          if (item.listData.length != null) {
+            item.listData.forEach((element) => {
+              tempData[index].data[element.date - 1] = element.sum
+            })
+          }
+        } else {
+          console.log('hi')
+        }
+      })
+      this.series = tempData
+    }
   }
 }
 </script>

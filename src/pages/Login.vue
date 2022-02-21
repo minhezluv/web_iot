@@ -5,7 +5,7 @@
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
           <div class="card card-signin my-5">
             <div class="card-body">
-              <h5 class="card-title text-center">Sign In</h5>
+              <h5 class="card-title text-center">Đăng nhập</h5>
               <form class="form-signin" @submit.prevent="handleSubmit()">
                 <div class="form-label-group">
                   <input
@@ -17,7 +17,7 @@
                     autofocus
                     v-model="username"
                   />
-                  <label for="inputText">User Name</label>
+                  <label for="inputText">Tên đăng nhập</label>
                 </div>
 
                 <div class="form-label-group">
@@ -29,7 +29,7 @@
                     required
                     v-model="password"
                   />
-                  <label for="inputPassword">Password</label>
+                  <label for="inputPassword">Mật khẩu</label>
                 </div>
 
                 <div class="custom-control custom-checkbox mb-3">
@@ -38,27 +38,13 @@
                     class="custom-control-input"
                     id="customCheck1"
                   />
-                  <label class="custom-control-label" for="customCheck1"
-                    >Remember password</label
-                  >
+                 
                 </div>
                 <button
                   class="btn btn-lg btn-primary btn-block text-uppercase"
                   type="submit"
                 >
-                  Sign in
-                </button>
-
-                <router-link to="" class="register">About Us</router-link>
-                <br />
-                <hr class="my-4" />
-                <button class="btn btn-lg btn-google btn-block text-uppercase">
-                  <i class="fab fa-google mr-2"></i> Sign in with Google
-                </button>
-                <button
-                  class="btn btn-lg btn-facebook btn-block text-uppercase"
-                >
-                  <i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook
+                  Đăng nhập
                 </button>
               </form>
             </div>
@@ -119,6 +105,9 @@ export default {
 .login {
   background: #007bff;
   background: linear-gradient(to right, #0062e6, #33aeff);
+  background-image: url(../../public/img/background.jpeg);
+  background-repeat: no-repeat, repeat;
+  background-size: cover;
   min-height: 800px;
 }
 

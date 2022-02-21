@@ -13,7 +13,8 @@ export default new Vuex.Store({
         listDataSensorYear: [],
         listAllDataYear: [],
         listAllDataYearUser: [],
-        totalData: 0
+        listAllDataListYear: [],
+        totaldata: 0
     },
 
     getters: {
@@ -22,6 +23,9 @@ export default new Vuex.Store({
         },
         totalDevice: state => {
             return state.listDevice.length
+        },
+        totalData: state => {
+            return state.totaldata
         }
     },
     mutations: {
@@ -46,13 +50,16 @@ export default new Vuex.Store({
 
         // TOTAL
         SAVE_DATATOTAL(state, data) {
-            state.totalData = data
+            state.totaldata = data
         },
         SAVE_ALLDATASESORYEAR(state, data) {
             state.listAllDataYear = data;
         },
         SAVE_ALLDATASESORYEARUSER(state, data) {
             state.listAllDataYearUser = data;
+        },
+        SAVE_ALLDATALISTYEAR(state, data) {
+            state.listAllDataListYear = data;
         }
     },
     actions: {
@@ -95,12 +102,17 @@ export default new Vuex.Store({
             // /api/device/7/alldatasensor/month/12-2020
             // console.log('loadDataSensor run')
             //console.log('dispath')
+            console.log("payload:", payload);
             let url = `/api/device/${payload.id}/alldatasensor/month/${payload.month}-${payload.year}`
                 // console.log('url', url)
             Vue.axios
-                .get(url)
+                .get(url, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem('token')
+                    }
+                })
                 .then(result => {
-                    //console.log('data: ', result.data)
+                    console.log('datastore: ', result.data)
                     commit('SAVE_DATASENSORMONTH', result.data)
                 })
                 .catch(error => {
@@ -144,7 +156,7 @@ export default new Vuex.Store({
                 })
         },
         loadDataTotalYearUser({ commit }, payload) {
-            //  console.log(payload.ptoken);
+            console.log("payload:", payload);
             Vue.axios
                 .get(`/api/device/alldata/${payload.id}/${payload.year}`)
                 .then(result => {
@@ -154,12 +166,19 @@ export default new Vuex.Store({
                 .catch(error => {
                     throw new Error(`API ${error}`)
                 })
+        },
+        loadDataTotalListYear({ commit }, payload) {
+            console.log(payload);
+            Vue.axios
+                .get(`/api/device/alldata`)
+                .then(result => {
+                    console.log(result.data);
+                    commit('SAVE_ALLDATALISTYEAR', result.data)
+                })
+                .catch(error => {
+                    throw new Error(`API ${error}`)
+                })
         }
     }
 
-    // modules: {
-    //   userProfile,
-    //   listUser,
-
-    // }
 })

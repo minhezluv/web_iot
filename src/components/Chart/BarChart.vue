@@ -1,61 +1,108 @@
+<template>
+  <apexchart
+    height="500"
+    type="bar"
+    :options="chartOptions"
+    :series="series"
+  ></apexchart>
+</template>
 <script>
-import { Bar } from 'vue-chartjs'
-
+import VueApexCharts from "vue-apexcharts";
 export default {
   name: 'BarChart',
-  extends: Bar,
-   created() {
+    components: {
+    apexchart: VueApexCharts
+  },
+  created() {
     let payload = {
       year: 2022
     }
-    this.$store.dispatch('loadDataTotalYear', payload);
-   this.data.datasets[0].data=this.$store.state.listAllDataYear;
-    console.log("dataset: ",this.data.datasets[0].data);
-    
+
+    this.$store.dispatch('loadDataTotalYear', payload)
+
     // console.log('this.series', this.series)
   },
-  data() {
+  data: function () {
     return {
-      data: {
-        labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-
-        datasets: [
-          {
-            data: [0,0],
-            label: 'đơn vị lít (nước)',
-            backgroundColor: [
-              '#3e95cd',
-              '#8e5ea2',
-              '#3cba9f',
-              '#e8c3b9',
-              '#c45850',
-              '#ff66ff',
-              '#3300ff',
-              '#00cccc',
-              '#ffff00',
-              '#ff3300',
-              '#0000cc',
-              '#330033'
-            ]
+      dataYear: [],
+      // chart
+      chartOptions: {
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            endingShape: 'rounded',
+            columnWidth: '55%',
+            distributed: true
           }
-        ]
-      },
-      options: {
-        title: {
-          display: true,
-          text: 'TỔNG SẢN LƯỢNG NƯỚC TỪNG THÁNG TRONG NĂM'
         },
-        responsive: true,
-        maintainAspectRatio: false
+
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          show: true,
+          width: 2,
+     
+        },
+        xaxis: {
+          categories: [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec'
+          ],
+            title: {
+            text: 'Tháng'
+          }
+        },
+        yaxis: {
+          title: {
+            text: 'Lít'
+          }
+        },
+        title: {
+          text: 'Biểu đổ lượng nước các tháng trong năm',
+          align: 'center'
+        },
+        fill: {
+          opacity: 1
+        },
+        tooltip: {
+          y: {
+            formatter: function (val) {
+              return val
+            }
+          }
+        },
+        theme: {
+          palette: 'palette4' // upto palette10
+        }
       }
     }
   },
-  mounted() {
-    // setInterval(() => {
-    //   // console.log("dat oc cho");
-    //   this.renderChart(this.data, this.options);
-    // }, 5000);
-    this.renderChart(this.data, this.options)
+  computed: {
+    series: {
+      get: function () {
+        let lismoney = [{ name: 'Tổng lượng nước trong năm', data: [] }]
+        let temp = this.$store.state.listAllDataYear
+        for (let element of temp) {
+          let money = element
+          lismoney[0].data.push(money)
+        }
+        return lismoney
+      },
+      set: function () {
+        return this.series
+      }
+    }
   }
 }
 </script>

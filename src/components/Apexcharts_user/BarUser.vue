@@ -16,31 +16,14 @@ export default {
       year: this.yearSelectBar
     }
     this.$store.dispatch('loadDataSenSorYear', payload)
-    this.dataYear = this.$store.state.listDataSensorYear
-    console.log("payload-id: ",payload.id);
+    console.log('payload-id: ', payload.id)
     console.log('dataYear', this.dataYear)
-
-    this.dataYear.sort((a, b) => {
-      if (a.code < b.code) return -1
-      return a.code > b.code ? 1 : 0
-    })
-    this.dataYear.forEach((item, index, array) => {
-      // console.log('item', item)
-      this.series[index].name = item.name
-      if (item.listData.length != 0) {
-        item.listData.forEach(element => {
-          //console.log(element)
-          this.series[index].data[element.date - 1] = element.sum
-          console.log(this.series[index].data[element.date - 1])
-        })
-      }
-    })
 
     // console.log('this.series', this.series)
   },
 
   props: ['deviceClick', 'yearSelectBar'],
-  data: function() {
+  data: function () {
     return {
       dataYear: [],
       // chart
@@ -86,13 +69,24 @@ export default {
         },
         tooltip: {
           y: {
-            formatter: function(val) {
+            formatter: function (val) {
               return val
             }
           }
         }
-      },
-      series: [
+      }
+    }
+  },
+  watch: {
+    yearSelectBar: function (newVal, oldVal) {
+      console.log('Prop changed:  ***', newVal, ' | was: ', oldVal)
+      // this.$forceUpdate()
+      this.upDateData(newVal, this.deviceClick)
+    }
+  },
+  methods: {
+    upDateData(year, id) {
+      let tempData = [
         { name: '', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
         { name: '', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
         { name: '', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
@@ -100,14 +94,63 @@ export default {
         { name: '', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
         // { name: 'dat', data: [20, 2, 34, 15, 0, 80, 90, 40, 22, 0, 30, 10] }
       ]
+      let payload = {
+        id: id,
+        year: year
+      }
+      this.$store.dispatch('loadDataSenSorYear', payload)
+      let dataYear = this.$store.state.listDataSensorYear
+      dataYear.sort((a, b) => {
+        if (a.code < b.code) return -1
+        return a.code > b.code ? 1 : 0
+      })
+      dataYear.forEach((item, index, array) => {
+        // console.log('item', item)
+        tempData[index].name = item.name
+        if (item.listData.length != 0) {
+          item.listData.forEach((element) => {
+            //console.log(element)
+            tempData[index].data[element.date - 1] = element.sum
+            //  console.log(this.series[index].data[element.date - 1])
+          })
+        }
+      })
+      this.series=tempData
     }
   },
-  mounted() {
-    // setInterval(() => {
-    //   this.getData(this.deviceClick)
-    //   console.log('setInterval: ')
-    // }, 1000)
-  },
-  methods: {}
+  computed: {
+    series: {
+      get: function () {
+        let tempData = [
+          { name: '', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+          { name: '', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+          { name: '', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+          { name: '', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+          { name: '', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+          // { name: 'dat', data: [20, 2, 34, 15, 0, 80, 90, 40, 22, 0, 30, 10] }
+        ]
+        this.dataYear = this.$store.state.listDataSensorYear
+        this.dataYear.sort((a, b) => {
+          if (a.code < b.code) return -1
+          return a.code > b.code ? 1 : 0
+        })
+        this.dataYear.forEach((item, index, array) => {
+          // console.log('item', item)
+          tempData[index].name = item.name
+          if (item.listData.length != 0) {
+            item.listData.forEach((element) => {
+              //console.log(element)
+              tempData[index].data[element.date - 1] = element.sum
+              //  console.log(this.series[index].data[element.date - 1])
+            })
+          }
+        })
+        return tempData
+      },
+      set: function(){
+        return this.series
+      }
+    }
+  }
 }
 </script>

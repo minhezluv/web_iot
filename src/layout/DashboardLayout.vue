@@ -4,23 +4,23 @@
       <mobile-menu slot="content"></mobile-menu>
       <sidebar-link to="/admin/overview">
         <i class="nc-icon nc-chart-pie-35"></i>
-        <p>Dashboard</p>
+        <p>Tổng quan</p>
       </sidebar-link>
       <sidebar-link to="/admin/user-profile">
         <i class="nc-icon nc-circle-09"></i>
-        <p>User Profile</p>
+        <p>Thông tin tài khoản</p>
       </sidebar-link>
       <sidebar-link to="/admin/table-list">
         <i class="nc-icon nc-paper-2"></i>
-        <p>Table List</p>
+        <p>Danh sách tài khoản</p>
       </sidebar-link>
       <sidebar-link to="/admin/add-user">
         <i class="nc-icon nc-simple-add"></i>
-        <p>Add User</p>
+        <p>Thêm tài khoản</p>
       </sidebar-link>
       <sidebar-link to="/admin/add-device">
         <i class="nc-icon nc-notes"></i>
-        <p>Add Device</p>
+        <p>Thêm thiết bị</p>
       </sidebar-link>
     </side-bar>
     <div class="main-panel">

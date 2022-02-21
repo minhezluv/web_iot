@@ -1,13 +1,14 @@
 <template>
-  <card class="card-user">
+  <card class="card-user" style="height:100%">
     <img
       slot="image"
-      src="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
+      src="../../../public/img/faces/media2.jpg"
       alt="..."
+      
     />
     <div class="author">
       <a href="#">
-        <img class="avatar border-gray" src="img/faces/face-0.jpg" alt="..." />
+        <img class="avatar border-gray" src="../../../public/img/faces/girlfriend.jpg" style="" alt="..." />
 
         <h4 class="title">
           {{ role }}<br />
@@ -16,7 +17,7 @@
       </a>
     </div>
     <p class="description text-center">
-      A++
+      A
     </p>
     <div slot="footer" class="text-center d-flex justify-content-center">
       <button href="#" class="btn btn-simple">

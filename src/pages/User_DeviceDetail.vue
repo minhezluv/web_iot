@@ -45,16 +45,15 @@
             ><span class="ml-1">Collect</span></label
           >
         </div>
-
-        <div class="col-md-2">
-          <base-input
+     <div class="col-md-2">
+          <label for="" class="control-label">Sensor 02</label>
+          <input
+            class="form-control"
             :disabled="true"
             type="text"
-            label="Sensor 02"
-            placeholder="Name Sensor 02"
+            placeholder="Name Sensor 2"
             v-model="deviceDetail.sensorList[1].name"
-          >
-          </base-input>
+          />
         </div>
         <div class="col-md-2 check-box">
           <input
@@ -263,6 +262,7 @@ export default {
       deviceDetail: ''
     }
   }
+ 
 }
 </script>
 

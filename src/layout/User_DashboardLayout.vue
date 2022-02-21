@@ -4,11 +4,11 @@
       <mobile-menu slot="content"></mobile-menu>
       <sidebar-link to="/user/list-device">
         <i class="nc-icon nc-chart-pie-35"></i>
-        <p>List Device</p>
+        <p>Danh sách thiết bị</p>
       </sidebar-link>
       <sidebar-link to="/user/user-profile">
         <i class="nc-icon nc-circle-09"></i>
-        <p>User Profile</p>
+        <p>Thông tin tài khoản</p>
       </sidebar-link>
     </side-bar>
     <div class="main-panel">

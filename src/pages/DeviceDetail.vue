@@ -259,18 +259,18 @@ export default {
 
   components: { LineRealTime, BarRealTime },
   watch: {
-    monthSelectLine: function(newVal, oldVal) {
-      console.log('Prop changed: ', newVal, ' | was: ', oldVal)
-      this.$forceUpdate()
-    },
-    yearSelectLine: function(newVal, oldVal) {
-      console.log('Prop changed: ', newVal, ' | was: ', oldVal)
-      this.$forceUpdate()
-    },
-    yearSelectBar: function(newVal, oldVal) {
-      console.log('Prop changed: ', newVal, ' | was: ', oldVal)
-      this.$forceUpdate()
-    }
+    // monthSelectLine: function(newVal, oldVal) {
+    //   console.log('Prop changed: ', newVal, ' | was: ', oldVal)
+    //   this.$forceUpdate()
+    // },
+    // yearSelectLine: function(newVal, oldVal) {
+    //   console.log('Prop changed: ', newVal, ' | was: ', oldVal)
+    //   this.$forceUpdate()
+    // },
+    // yearSelectBar: function(newVal, oldVal) {
+    //   console.log('Prop changed: ', newVal, ' | was: ', oldVal)
+    //   this.$forceUpdate()
+    // }
   },
 
   data() {
