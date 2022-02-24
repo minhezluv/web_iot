@@ -94,6 +94,7 @@ export default {
                 10 * 7.052 +
                 10 * 8.669
             }
+            money=Math.round(money)
             listmoney[0].data[index] = money
            // console.log("index",listmoney.data[index]);
           })
