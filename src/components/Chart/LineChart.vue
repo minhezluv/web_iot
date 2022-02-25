@@ -84,7 +84,7 @@ export default {
             text: 'lít nước'
           },
           min: 0,
-          max: 1000
+          
         }
       }
     }

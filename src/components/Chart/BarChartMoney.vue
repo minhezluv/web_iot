@@ -108,7 +108,7 @@ export default {
               10 * 7.052 +
               10 * 8.669
           }
-          money=Math.round(money)
+        //  money=Math.round(money)
           lismoney[0].data.push(money)
         }
         return lismoney
